@@ -7,5 +7,6 @@
             Text="AAAAAAAAAAAAAAAAAAAAA"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Entry Placeholder="eagsrhsrh" />
     </VerticalStackLayout>
 </ContentPage>

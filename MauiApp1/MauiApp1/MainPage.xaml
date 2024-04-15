@@ -7,16 +7,16 @@
     <ScrollView>
         <VerticalStackLayout>
             <FlexLayout JustifyContent="Start" AlignItems="Center" Margin="30">
-                <Image Source="logo.png" WidthRequest="50" Margin="0"/>
+                <Image Source="logo.png" WidthRequest="50" Margin="0,10,0,0"/>
                 <Label Text="ReadME" FontFamily="Kanit" FontSize="20"/>
             </FlexLayout>
 
-            
 
-            <c:BookCards/>
-            <c:BookCards/>
-            <c:BookCards/>
-            
+
+            <StackLayout x:Name="BookList">
+                <c:BookCards BookTitle="Boruto, Nauto Next Generation VOL 22" BookImagePath="boruto.jpg"/>
+            </StackLayout>
+
             <Button
                 Text="coucou"
                     Clicked="OnCounterClicked" />
