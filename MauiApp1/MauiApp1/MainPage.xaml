@@ -7,7 +7,7 @@
     <ScrollView>
         <VerticalStackLayout>
             <FlexLayout JustifyContent="Start" AlignItems="Center" Margin="30">
-                <Image Source="logo.png" WidthRequest="50" Margin="0,10,0,0"/>
+                <Image Source="logo.png" WidthRequest="50" Margin="0,0,10,0"/>
                 <Label Text="ReadME" FontFamily="Kanit" FontSize="20"/>
             </FlexLayout>
 
