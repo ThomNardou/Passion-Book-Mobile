@@ -1,3 +1,10 @@
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using VersOne.Epub;
+using System.Text;
+using HtmlAgilityPack;
+using System.Diagnostics;
+
 namespace MauiApp1;
 
 public partial class BookCards : ContentView
@@ -19,7 +26,13 @@ public partial class BookCards : ContentView
 
 
     public BookCards()
-	{
+    { 
 		InitializeComponent();
 	}
+
+    private async void sayHello(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new BookText(_title.Text));
+        Debug.WriteLine("CLICKED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   " + _title.Text);
+    }
 }
