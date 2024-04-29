@@ -11,6 +11,7 @@ public partial class BookCards : ContentView
 {
     public static readonly BindableProperty BookTitleProperty = BindableProperty.Create(nameof(BookTitle), typeof(string), typeof(BookCards), string.Empty);
     public static readonly BindableProperty BookImagePathProperty = BindableProperty.Create(nameof(BookImagePath), typeof(string), typeof(BookCards), string.Empty);
+    public static readonly BindableProperty BookAuthorProperty = BindableProperty.Create(nameof(BookAuthorProperty), typeof(string), typeof(BookCards), string.Empty);
     //boruto.jpg
 
     public string BookTitle
@@ -22,6 +23,12 @@ public partial class BookCards : ContentView
     {
         get => (string)GetValue(BookCards.BookImagePathProperty);
         set => SetValue(BookCards.BookImagePathProperty, value);
+    }
+
+    public string BookAuthor
+    {
+        get => (string)GetValue(BookCards.BookAuthorProperty);
+        set => SetValue(BookCards.BookAuthorProperty, value);
     }
 
 

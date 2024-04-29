@@ -4,13 +4,17 @@ using VersOne.Epub;
 using System.Text;
 using HtmlAgilityPack;
 using System.Diagnostics;
+using System.Text.Json;
+using Newtonsoft.Json.Linq;
+using Nancy.Json;
+using Nancy;
+using MauiApp1.Services;
+
 
 namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
-
-        private HttpClient client;
 
         public MainPage()
         {
@@ -20,27 +24,7 @@ namespace MauiApp1
 
         public async void GetBookAPI()
         {
-            var client = new HttpClient();
-            client.Timeout = TimeSpan.FromSeconds(10);
-            //client.
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri("http://10.0.2.2:3000/api/books"),
-                /*Headers =
-                {
-                    { "authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMzc4OTQ3MywiZXhwIjoxNzQ1MzQ3MDczfQ.AiconE00Rkxoz4mDxN09XP6Bqn2BV34aFtbIwNWxVog" },
-                },*/
-            };
-
-            //client.SendAsync(request);
-
-            using (var response = await client.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine(body);
-            }
+            
         }
 
         private async void OnCounterClicked(object sender, EventArgs e)

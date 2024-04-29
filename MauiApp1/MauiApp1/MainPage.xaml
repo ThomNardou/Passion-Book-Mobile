@@ -2,7 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:c="clr-namespace:MauiApp1"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              x:Class="MauiApp1.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewModel:ViewModel x:Name="vm" />
+    </ContentPage.BindingContext>
 
     <ScrollView>
         <VerticalStackLayout>
@@ -14,11 +20,19 @@
 
 
             <StackLayout x:Name="BookList">
-                <c:BookCards BookTitle="Boruto, Nauto Next Generation VOL 22" BookImagePath="boruto.jpg"/>
-                <c:BookCards BookTitle="Test" BookImagePath="boruto.jpg"/>
+
+                <CollectionView SelectionMode="None"
+                                ItemsSource="{Binding ListBooks}" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <c:BookCards BookTitle="{Binding title}" BookImagePath="{Binding coverImage}" BookAuthor="{Binding writer}" Margin="0, 20"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+
 
             </StackLayout>
-
             <Button
                     Text="coucou"
                     AbsoluteLayout.LayoutBounds="1,1,60,60"
