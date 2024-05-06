@@ -4,30 +4,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
-             x:Class="MauiApp1.MainPage">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MauiApp1.MainPage"
+             BackgroundImageSource="/bg.png"
+             BackgroundColor="Wheat"
+             x:Name="pageSelf">
 
     <ContentPage.BindingContext>
         <viewModel:ViewModel x:Name="vm" />
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ScrollView>
         <VerticalStackLayout>
+            
             <FlexLayout JustifyContent="Start" AlignItems="Center" Margin="30">
-                <Image Source="logo.png" WidthRequest="50" Margin="0,0,10,0"/>
-                <Label Text="ReadME" FontFamily="Kanit" FontSize="20"/>
+                <Image Source="logo.png" WidthRequest="50" Margin="0,0,10,0" />
+                <Label Text="ReadME" FontFamily="Kanit" FontSize="20" TextColor="White"/>
             </FlexLayout>
 
 
 
             <StackLayout x:Name="BookList">
 
-                <CollectionView SelectionMode="None"
-                                ItemsSource="{Binding ListBooks}" >
+                <CollectionView 
+                                ItemsSource="{Binding ListBooks}" 
+                                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+
+                    <!--<CollectionView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TappedItemCommand}"/>
+                    </CollectionView.GestureRecognizers>-->
+
+                    
+                    <!--<CollectionView.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="ItemTapped" Command="{Binding TappedItemCommand}" EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}"  />
+                    </CollectionView.Behaviors>-->
+                    
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <c:BookCards BookTitle="{Binding title}" BookImagePath="{Binding coverImage}" BookAuthor="{Binding writer}" Margin="0, 20"/>
+                            <Grid>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference vm}, Path=TappedItemCommand}" CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+
+                                
+                                <c:BookCards BookTitle="{Binding title}" BookImagePath="{Binding coverImage}" BookAuthor="{Binding writer}" Margin="0, 20"/>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+
                 </CollectionView>
 
 

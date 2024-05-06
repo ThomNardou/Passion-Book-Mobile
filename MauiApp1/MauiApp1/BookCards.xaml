@@ -2,27 +2,34 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.BookCards"
+             xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              x:Name="this">
 
     <FlexLayout JustifyContent="SpaceAround" Margin="10,0,10,0">
 
-        <FlexLayout.GestureRecognizers>
-            <TapGestureRecognizer Tapped="sayHello" />
-        </FlexLayout.GestureRecognizers>
+        <!--<FlexLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference vm}, Path=OnTappedItemCommand}"/>
+        </FlexLayout.GestureRecognizers>-->
 
         <Image Source="{Binding Source={x:Reference this}, Path=BookImagePath}" HeightRequest="230" HorizontalOptions="Start" Margin="0,0,0,0" />
         <StackLayout Margin="10,0,0,0">
-            <Label Text="{Binding Source={x:Reference this}, Path=BookTitle}" WidthRequest="200" FontSize="Title" Margin="0,7,0,0" x:Name="_title"/>
+            <Label Text="{Binding Source={x:Reference this}, Path=BookTitle}" WidthRequest="200" FontSize="Title" Margin="0,7,0,0" x:Name="_title" TextColor="White"/>
+            
             <FlexLayout Wrap="Wrap" WidthRequest="200" Margin="0,10,0,10" Padding="0" HorizontalOptions="Start" >
-                <Label Text="Coucou" HorizontalTextAlignment="Start" Margin="0,2,5,2" BackgroundColor="#6B4E71" Padding="10,3,10,3" TextColor="#F5DDDD"/>
+                <Border StrokeShape="RoundRectangle 30,30,30,30" >
+                    <Label Text="Coucou" HorizontalTextAlignment="Start" BackgroundColor="#6B4E71" Padding="10,3,10,3" TextColor="#F5DDDD" />
+                </Border>
             </FlexLayout>
+            
             <Grid>
                 <FlexLayout AlignItems="Center" HeightRequest="30">
-                    <BoxView WidthRequest="100" HeightRequest="10" Color="Red" HorizontalOptions="Start" />
+                    <BoxView WidthRequest="100" HeightRequest="10" Color="#F5DDDD" HorizontalOptions="Start" CornerRadius="30" BackgroundColor="Transparent" />
                     <Label Text="50%" Margin="10,0,0,0"/>
                 </FlexLayout>
-                <BoxView WidthRequest="50" HeightRequest="10" Color="Blue" HorizontalOptions="Start" />
+                <BoxView WidthRequest="50" HeightRequest="10" Color="#3A4454" HorizontalOptions="Start" CornerRadius="30" BackgroundColor="Transparent"/>
             </Grid>
+            
         </StackLayout>
     </FlexLayout>
 

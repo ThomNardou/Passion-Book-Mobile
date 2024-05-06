@@ -9,11 +9,16 @@ using CommunityToolkit.Mvvm.Input;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO.Compression;
+using System.Security.Cryptography;
 
 namespace MauiApp1.ViewModel
 {
     public partial class ViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private Books selectedItem;
+
         [ObservableProperty]
         private ObservableCollection<Books> listBooks = new ObservableCollection<Books>();
 
@@ -59,6 +64,24 @@ namespace MauiApp1.ViewModel
                 }
 
             }
+        }
+
+        [RelayCommand]
+        private void OnTappedItem(Books o)
+        {
+
+            
+            Debug.WriteLine($"neiughuioegheuiogbio     mfgmkcgkcgkckcgkcdjk "+o.title);
+
+        }
+
+        public void ReadBook(Books book)
+        {
+            //book.epub
+            var bytes = Convert.FromBase64String(book.epub);
+            var contents = new StreamContent(new MemoryStream(bytes));
+            var epub = new ZipArchive(contents.ReadAsStream());
+
         }
     }
 }

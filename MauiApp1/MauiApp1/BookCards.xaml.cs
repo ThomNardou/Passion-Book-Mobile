@@ -32,6 +32,7 @@ public partial class BookCards : ContentView
     }
 
 
+
     public BookCards()
     { 
 		InitializeComponent();

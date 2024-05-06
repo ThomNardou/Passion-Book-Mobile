@@ -16,6 +16,7 @@ namespace MauiApp1.Services
         public string? writer { get; set; }
         public string? editor { get; set; }
         public int releaseYear { get; set; }
+        public string epub { get; set; }
         public float avgRating { get; set; }
         public string? coverImage { get; set; }
         public DateTime createdAt { get; set; }
