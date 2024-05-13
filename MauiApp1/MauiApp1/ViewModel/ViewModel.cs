@@ -11,6 +11,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Security.Cryptography;
+using System.Buffers.Text;
+using System.Xml;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace MauiApp1.ViewModel
 {
@@ -21,6 +25,17 @@ namespace MauiApp1.ViewModel
 
         [ObservableProperty]
         private ObservableCollection<Books> listBooks = new ObservableCollection<Books>();
+
+        [ObservableProperty]
+        private ObservableCollection<XmlNode> chapters = new ObservableCollection<XmlNode>();
+
+        [ObservableProperty]
+        private int currentPage = 1;
+
+        [ObservableProperty]
+        private int totalPage = 0;
+
+        
 
         public ViewModel()
         {
@@ -49,17 +64,10 @@ namespace MauiApp1.ViewModel
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
 
-                Debug.WriteLine("=======================================");
-                Debug.WriteLine(body);
-                Debug.WriteLine("=======================================");
-
                 ApiResults result = System.Text.Json.JsonSerializer.Deserialize<ApiResults>(body);
 
                 foreach (var item in result.data) {
                     ListBooks.Add(item);
-                    Debug.WriteLine("================================================");
-                    Debug.WriteLine(item.writer);
-                    Debug.WriteLine("================================================");
 
                 }
 
@@ -69,11 +77,66 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         private void OnTappedItem(Books o)
         {
+            Chapters.Clear();
 
+            var byteArray = Convert.FromBase64String(o.epub);
+
+
+            ZipArchive archive = new ZipArchive(new MemoryStream(byteArray));
+
+
+            var contentString = new StreamReader(archive.GetEntry("OEBPS/content.opf").Open()).ReadToEnd();
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(contentString);
+
+            XmlNamespaceManager nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
+            nsManager.AddNamespace("opf", "http://www.idpf.org/2007/opf");
+
+            XmlNodeList ContentsNode = xmlDoc.SelectNodes("//opf:item", nsManager);
+
+            foreach (XmlNode item in ContentsNode)
+            {
+                if (item.Attributes["media-type"].Value == "application/xhtml+xml")
+                {
+                    Chapters.Add(item);
+                    TotalPage = Chapters.Count;
+                }
+            }
             
-            Debug.WriteLine($"neiughuioegheuiogbio     mfgmkcgkcgkckcgkcdjk "+o.title);
+            CurrentBook.Archive = archive;
+            CurrentBook.Chapters = Chapters;
 
+            Shell.Current.Navigation.PushAsync(new BookText(Chapters.Count, Chapters));
         }
+
+        [RelayCommand]
+        private void GoNextPage()
+        {
+            CurrentPage += 1;
+        }
+
+        [RelayCommand]
+        private void GoPreviousPage()
+        {
+            CurrentPage -= 1;
+        }
+
+        public string ChapterContent {
+            get {
+                var currentChapterHref = CurrentBook.Chapters[currentPage].Attributes["href"].Value;
+                string path = "OEBPS/" + currentChapterHref;
+                string cleanPath = Uri.UnescapeDataString(path);
+                var ccContent = CurrentBook.Archive.GetEntry(cleanPath);
+                string sr = new StreamReader(ccContent.Open()).ReadToEnd();
+
+                string result = Regex.Replace(sr, @"<[^>]*>", String.Empty);
+
+                return result; 
+            }
+            
+        }
+
 
         public void ReadBook(Books book)
         {

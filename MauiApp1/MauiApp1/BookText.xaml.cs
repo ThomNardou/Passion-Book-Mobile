@@ -1,19 +1,22 @@
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO.Compression;
+using System.Xml;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MauiApp1.Services;
+using static System.Net.Mime.MediaTypeNames;
+
 namespace MauiApp1;
 
 public partial class BookText : ContentPage
 {
-    public static readonly BindableProperty BookTitleProperty = BindableProperty.Create(nameof(BookTitle), typeof(string), typeof(BookText), string.Empty);
-    //boruto.jpg
-
-    public string BookTitle
-    {
-        get => (string)GetValue(BookText.BookTitleProperty);
-        set => SetValue(BookText.BookTitleProperty, value);
-    }
-    public BookText(string title)
+	
+    public BookText(int totalPage, ObservableCollection<XmlNode> chapters)
 	{
 		InitializeComponent();
-        contentPage.Title = title;
-        _title.Text = title;
-	}
+		var vm = this.BindingContext as ViewModel.ViewModel;
+		vm.TotalPage = totalPage;
+		vm.Chapters = chapters;
+    }
 }

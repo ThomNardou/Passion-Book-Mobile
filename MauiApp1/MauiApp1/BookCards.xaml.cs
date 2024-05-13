@@ -37,10 +37,4 @@ public partial class BookCards : ContentView
     { 
 		InitializeComponent();
 	}
-
-    private async void sayHello(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new BookText(_title.Text));
-        Debug.WriteLine("CLICKED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   " + _title.Text);
-    }
 }
