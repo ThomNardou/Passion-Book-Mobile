@@ -18,5 +18,7 @@ public partial class BookText : ContentPage
 		var vm = this.BindingContext as ViewModel.ViewModel;
 		vm.TotalPage = totalPage;
 		vm.Chapters = chapters;
+		vm.CurrentPage = 1;
+		//vm.ChContent = vm.ChapterContent();
     }
 }

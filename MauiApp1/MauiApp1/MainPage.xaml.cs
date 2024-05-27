@@ -19,7 +19,11 @@ namespace MauiApp1
         public MainPage()
         {
             InitializeComponent();
-            GetBookAPI();
+
+            var vm = this.BindingContext as ViewModel.ViewModel;
+            
+            new Timer((_) => vm.getBooks(), null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
+            
         }
 
         public async void GetBookAPI()

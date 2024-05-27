@@ -12,23 +12,21 @@
         <viewModel:ViewModel x:Name="vm" />
     </ContentPage.BindingContext>
     
-    <VerticalStackLayout>
-
         <ScrollView>
-            <Label Text="{Binding ChapterContent}" />
-        </ScrollView>
+            <VerticalStackLayout>
+                <Label Text="{Binding ChContent}" WidthRequest="350"/>
 
-        <FlexLayout JustifyContent="SpaceAround">
-            <Button Text="Previous" WidthRequest="100" BackgroundColor="Pink" HeightRequest="50" Command="{Binding GoPreviousPageCommand}"/>
-            <StackLayout>
-                <FlexLayout WidthRequest="100" JustifyContent="Center" HeightRequest="50" AlignItems="Center">
-                    <Label Text="{Binding CurrentPage}" />
-                    <Label Text=" / " />
-                    <Label Text="{Binding TotalPage}" />
+                <FlexLayout JustifyContent="SpaceAround">
+                    <Button Text="Previous" WidthRequest="100" BackgroundColor="Pink" HeightRequest="50" Command="{Binding GoPreviousPageCommand}" Margin="0,0,0,50"/>
+                    <StackLayout Margin="0,0,0,50" HeightRequest="50">
+                        <FlexLayout WidthRequest="100" JustifyContent="Center" HeightRequest="50" AlignItems="Center"  >
+                            <Label Text="{Binding CurrentPage}" />
+                            <Label Text=" / "/>
+                            <Label Text="{Binding TotalPage}" />
+                        </FlexLayout>
+                    </StackLayout>
+                <Button Text="Next" WidthRequest="100" BackgroundColor="LightGreen" HeightRequest="50" Command="{Binding GoNextPageCommand}" Margin="0,0,0,50"/>
                 </FlexLayout>
-            </StackLayout>
-            <Button Text="Next" WidthRequest="100" BackgroundColor="LightGreen" HeightRequest="50" Command="{Binding GoNextPageCommand}"/>
-        </FlexLayout>
-        
-    </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
 </ContentPage>

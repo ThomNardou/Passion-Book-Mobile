@@ -7,7 +7,6 @@
     Shell.FlyoutBehavior="Disabled"
     Title="MauiApp1">
 
-    <TabBar>
         <ShellContent
             Icon="aaa.png"
             ContentTemplate="{DataTemplate local:MainPage}"
@@ -17,6 +16,5 @@
             Title="Test"
             ContentTemplate="{DataTemplate local:NewPage1}"
             Route="Page1" />
-    </TabBar>
 
 </Shell>

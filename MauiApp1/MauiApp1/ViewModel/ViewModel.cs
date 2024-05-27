@@ -30,20 +30,26 @@ namespace MauiApp1.ViewModel
         private ObservableCollection<XmlNode> chapters = new ObservableCollection<XmlNode>();
 
         [ObservableProperty]
-        private int currentPage = 1;
+        private int currentPage = 0;
 
         [ObservableProperty]
         private int totalPage = 0;
+
+        [ObservableProperty]
+        private Timer timer;
 
         
 
         public ViewModel()
         {
-            getBooks();
+            //getBooks();
+
+            
         }
 
         public async void getBooks()
         {
+            Trace.WriteLine("hi");
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
             //client.
@@ -107,33 +113,61 @@ namespace MauiApp1.ViewModel
             CurrentBook.Archive = archive;
             CurrentBook.Chapters = Chapters;
 
-            Shell.Current.Navigation.PushAsync(new BookText(Chapters.Count, Chapters));
+            CurrentPage = 1;
+            Shell.Current.Navigation.PushAsync(new BookText(Chapters.Count - 1, Chapters));
         }
 
         [RelayCommand]
-        private void GoNextPage()
+        private async void GoNextPage()
         {
-            CurrentPage += 1;
+            if(CurrentPage < Chapters.Count - 1)
+            {
+                CurrentPage += 1;
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Terminé", "Vous avez terminé votre livre. BRAVO !!!", "MERCI");
+                await Shell.Current.Navigation.PopAsync();
+            }
         }
 
         [RelayCommand]
-        private void GoPreviousPage()
+        private async void GoPreviousPage()
         {
-            CurrentPage -= 1;
+            if (CurrentPage > 1)
+            {
+                CurrentPage -= 1;
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("OUPS", "Vous ne pouvez pas aller plus pas", "OK");
+            }
         }
 
-        public string ChapterContent {
-            get {
-                var currentChapterHref = CurrentBook.Chapters[currentPage].Attributes["href"].Value;
+
+        [ObservableProperty]
+        public string chContent;
+
+        partial void OnCurrentPageChanged(int value)
+        {
+            ChContent = ChapterContent();
+        }
+
+        public string ChapterContent(){
+            
+                var currentChapterHref = CurrentBook.Chapters[CurrentPage].Attributes["href"].Value;
                 string path = "OEBPS/" + currentChapterHref;
                 string cleanPath = Uri.UnescapeDataString(path);
                 var ccContent = CurrentBook.Archive.GetEntry(cleanPath);
                 string sr = new StreamReader(ccContent.Open()).ReadToEnd();
 
                 string result = Regex.Replace(sr, @"<[^>]*>", String.Empty);
+                string realResult = Regex.Replace(result, @"&nbsp;", String.Empty);
 
-                return result; 
-            }
+                Debug.WriteLine(realResult);
+
+                return realResult; 
+            
             
         }
 
